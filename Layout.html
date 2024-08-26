@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced HRM System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chart.js/4.3.0/chart.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            width: calc(100% - 250px);
+            left: 250px;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .header .search-bar input {
+            width: 100%;
+        }
+
+        .header .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user-info .notifications {
+            margin-right: 15px;
+            position: relative;
+        }
+
+        .header .user-info .notifications .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #dc3545;
+        }
+
+        .header .user-info .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user-info .profile img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+       
+        .sidebar {
+            background-color:  #0d6efd;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            top: 0;
+            left: 0;
+            padding-top: 60px; /* Adjusted for header height */
+            color: white;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color:  #3282fc;
+        }
+
+        .sidebar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+            visibility: hidden;
+        }
+        .sidebar.hidden ~ .header,
+        .sidebar.hidden ~ .main {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .sidebar {
+            transform: translateX(0);
+            visibility: visible;
+            transition: transform 0.3s ease, visibility 0.3s ease;
+        }
+
+        .sidebar.hidden ~ .toggle-btn {
+            display: none;
+        }
+
+
+        .main {
+            margin-left: 250px;
+            margin-top: 60px; /* Adjusted for header height */
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .section {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #343a40;
+            font-weight: 600;
+            font-size: 22px;
+            border-bottom: 2px solid #17a2b8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .footer {
+        background-color: #0d6efd;
+        color: white;
+        padding: 30px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        .footer h4 {
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .footer p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #e1e8e9;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            color: #ffffff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: #17a2b8;
+        }
+
+        @media (max-width: 767px) {
+            .footer {
+                padding: 20px 0;
+            }
+
+            .footer h4 {
+                font-size: 16px;
+            }
+
+            .footer p {
+                font-size: 12px;
+            }
+        }
+
+
+        .btn-custom {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #138496;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+         /* Toggle Button Styles */
+         .toggle-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 10px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            /* position: fixed; */
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+        .toggle-btn-header{
+            display: none;
+        }
+
+        .toggle-btn-sidebar{
+            position: fixed;
+        }
+
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+
+        /* Notification list styles */
+        .notification-list {
+            display: none;
+            position: absolute;
+            top: 100%; /* Position below the bell icon */
+            right: 0;
+            background: #fff;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 300px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it appears above other content */
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .notification-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .notification-time {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .view-all {
+            display: block;
+            padding: 10px 15px;
+            text-align: center;
+            color: #0d6efd;
+            text-decoration: none;
+            font-weight: 500;
+            border-top: 1px solid #ddd;
+        }
+
+        .view-all:hover {
+            background-color: #f1f1f1;
+            border-top: 1px solid #ddd;
+        }
+
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            transition: opacity 0.3s ease;
+        }
+
+        .notification-list {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Logo styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            /* Adjust height or other styles as needed */
+        }
+
+        .logo img {
+            height: 40px; /* Adjust size as needed */
+            width: auto;  /* Maintain aspect ratio */
+            max-width: 100%; /* Ensure it doesn't exceed the container */
+        }
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <button class="toggle-btn toggle-btn-header" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        <div class="logo">
+            <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" class="form-control" placeholder="Search...">
+        </div>
+        <div class="user-info">
+            <div class="notifications" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+                <div class="notification-list">
+                    <div class="notification-item">
+                        <span class="notification-text">Notification 1</span>
+                        <span class="notification-time">5 mins ago</span>
+                    </div>
+                    <div class="notification-item">
+                        <span class="notification-text">Notification 2</span>
+                        <span class="notification-time">10 mins ago</span>
+                    </div>
+                    <div class="notification-item">
+                        <span class="notification-text">Notification 3</span>
+                        <span class="notification-time">15 mins ago</span>
+                    </div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+            </div>
+            <div class="profile">
+                <span>John Doe</span>
+                <img src="https://via.placeholder.com/40" alt="User Profile">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        <div class="brand">HRM System</div>
+        <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="#attendance"><i class="fas fa-calendar-check"></i> Attendance & GPS</a>
+        <a href="#contract"><i class="fas fa-file-contract"></i> Contract Management</a>
+        <a href="#notifications"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="#profile"><i class="fas fa-user"></i> Personal Profile</a>
+        <a href="#leave"><i class="fas fa-plane-departure"></i> Leave Management</a>
+        <a href="#work-confirmation"><i class="fas fa-check-circle"></i> Work Confirmation</a>
+        <a href="#overtime"><i class="fas fa-clock"></i> Overtime Registration</a>
+        <a href="#maternity"><i class="fas fa-baby"></i> Maternity Registration</a>
+        <a href="#resignation"><i class="fas fa-sign-out-alt"></i> Resignation Management</a>
+        <a href="#payroll"><i class="fas fa-dollar-sign"></i> Payroll & Security</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div id="dashboard" class="section">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="dashboardChart"></canvas>
+            </div>
+            <p>Overview of HR activities, quick links, and notifications.</p>
+            <a href="#" class="btn btn-custom">View Details</a>
+        </div>
+
+        <div id="attendance" class="section">
+            <div class="section-header">
+                <h2>Attendance & GPS</h2>
+            </div>
+            <p>Manage employee attendance with GPS tracking and photo capture.</p>
+            <a href="#" class="btn btn-custom">Manage Attendance</a>
+        </div>
+
+        <div id="contract" class="section">
+            <div class="section-header">
+                <h2>Contract Management</h2>
+            </div>
+            <p>Manage and confirm employee contracts.</p>
+            <a href="#" class="btn btn-custom">View Contracts</a>
+        </div>
+
+        <div id="notifications" class="section">
+            <div class="section-header">
+                <h2>Notifications</h2>
+            </div>
+            <p>Create and manage notifications within the organization.</p>
+            <a href="#" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#notificationModal">Create Notification</a>
+        </div>
+
+        <div id="profile" class="section">
+            <div class="section-header">
+                <h2>Personal Profile</h2>
+            </div>
+            <p>Manage and edit personal profiles and approval settings.</p>
+            <a href="#" class="btn btn-custom">Edit Profile</a>
+        </div>
+
+        <div id="leave" class="section">
+            <div class="section-header">
+                <h2>Leave Management</h2>
+            </div>
+            <p>Handle leave requests and approvals.</p>
+            <a href="#" class="btn btn-custom">Manage Leaves</a>
+        </div>
+
+        <div id="work-confirmation" class="section">
+            <div class="section-header">
+                <h2>Work Confirmation</h2>
+            </div>
+            <p>Manage and confirm work-related requests.</p>
+            <a href="#" class="btn btn-custom">Manage Work Confirmation</a>
+        </div>
+
+        <div id="overtime" class="section">
+            <div class="section-header">
+                <h2>Overtime Registration</h2>
+            </div>
+            <p>Register and manage overtime work.</p>
+            <a href="#" class="btn btn-custom">Register Overtime</a>
+        </div>
+
+        <div id="maternity" class="section">
+            <div class="section-header">
+                <h2>Maternity Registration</h2>
+            </div>
+            <p>Handle maternity leave registrations.</p>
+            <a href="#" class="btn btn-custom">Register Maternity Leave</a>
+        </div>
+
+        <div id="resignation" class="section">
+            <div class="section-header">
+                <h2>Resignation Management</h2>
+            </div>
+            <p>Manage resignation requests and documentation.</p>
+            <a href="#" class="btn btn-custom">Manage Resignations</a>
+        </div>
+
+        <div id="payroll" class="section">
+            <div class="section-header">
+                <h2>Payroll & Security</h2>
+            </div>
+            <p>Handle payroll processing and security settings.</p>
+            <a href="#" class="btn btn-custom">Manage Payroll</a>
+        </div>
+
+          <!-- Footer -->
+    <footer class="footer section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>About Us</h4>
+                    <p>We are committed to delivering the best HR solutions to help you manage your workforce efficiently.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-3">
+                    <p>&copy; 2024 Company Name. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Create Notification Modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationModalLabel">Create Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="notificationTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="notificationTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notificationBody" class="form-label">Message</label>
+                            <textarea class="form-control" id="notificationBody" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom">Send Notification</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        // Dashboard Chart
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Contracts', 'Notifications', 'Leaves', 'Overtime', 'Maternity', 'Resignation'],
+                datasets: [{
+                    label: 'Requests Overview',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                    borderColor: 'rgba(23, 162, 184, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+       function toggleNotifications() {
+        const notificationList = document.querySelector('.notification-list');
+        const badge = document.querySelector('.badge');
+
+        // Toggle display of the notification list and badge
+        if (notificationList.style.display === 'block') {
+            notificationList.style.display = 'none';
+            badge.style.display = 'block';
+        } else {
+            notificationList.style.display = 'block';
+            badge.style.display = 'none';
+        }
+    }
+
+
+
+       function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const header = document.querySelector('.header');
+            const main = document.querySelector('.main');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const toggleBtnIcon = document.querySelector('.toggle-btn i');
+            
+            sidebar.classList.toggle('hidden');
+
+            
+              // Change the icon based on sidebar visibility
+            if (sidebar.classList.contains('hidden')) {
+                toggleBtnIcon.classList.remove('fa-times');
+                toggleBtnIcon.classList.add('fa-bars');
+                toggleBtn.style.display = 'block'; 
+          
+            } else {
+                toggleBtnIcon.classList.remove('fa-bars');
+                toggleBtnIcon.classList.add('fa-times');
+                toggleBtn.style.display = 'none'; 
+            }
+
+
+            if (sidebar.classList.contains('hidden')) {
+                header.style.width = '100%';
+                header.style.left = '0';
+                main.style.marginLeft = '0';
+            } else {
+                header.style.width = 'calc(100% - 250px)';
+                header.style.left = '250px';
+                main.style.marginLeft = '250px';
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
