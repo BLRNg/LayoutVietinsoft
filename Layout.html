@@ -18,7 +18,7 @@
         .header {
             background-color: white;
             color: rgb(29, 28, 28);
-            padding: 20px 20px;
+            padding: 11px 20px;
             position: fixed;
             width: calc(100% - 270px);
             left: 270px;
@@ -27,19 +27,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1); */
             border-bottom: 1px solid rgb(240,241,242);
-            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
-            /* box-shadow: ; */
             transition: width 0.3s ease, left 0.3s ease;
         }
 
-        .header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            display: none;
-        }
-
+     
         .header .search-bar {
          
             flex-grow: 1;
@@ -69,7 +62,7 @@
             position: absolute;
             top: -10px;
             right: -10px;
-            background-color: #dc3545;
+            background-color: #E03137;
         }
 
         .header .user-info .profile {
@@ -79,8 +72,8 @@
 
         .header .user-info .profile img {
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             margin-left: 10px;
             margin-right: 15px;
         }
@@ -187,9 +180,7 @@
             transition: transform 0.3s ease, visibility 0.3s ease;
         }
 
-        /* .sidebar.hidden ~ .logo-header {
-            display: block;
-        } */
+     
 
         .sidebar.hidden ~ .toggle-btn {
             display: none;
@@ -201,41 +192,21 @@
         }
 
         .sidebar a i {
-            display: inline-block; /* Ensure icons are visible */
+            display: inline-block; 
         }
-
-
-        /* .sidebar.hidden {
-            transform: translateX(-100%);
-            visibility: hidden;
-        }
-        .sidebar.hidden ~ .header,
-        .sidebar.hidden ~ .main {
-            margin-left: 0;
-            width: 100%;
-        }
-
-    
-        .sidebar {
-            transform: translateX(0);
-            visibility: visible;
-            transition: transform 0.3s ease, visibility 0.3s ease;
-        }
-
-        .sidebar.hidden ~ .toggle-btn {
-            display: none;
-        } */
 
 
         .main {
             margin-left: 250px;
-            margin-top: 60px; /* Adjusted for header height */
+            margin-top: 60px; 
             padding: 30px;
             transition: margin-left 0.3s ease;
         }
 
         .section {
-            background-color: white;
+            background-color: rgb(12,175,96,0.1);
+            border: 1px solid rgb(12,175,96,1);
+            color: rgb(56, 62, 71);
             padding: 25px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -247,14 +218,14 @@
             color: #343a40;
             font-weight: 600;
             font-size: 22px;
-            border-bottom: 2px solid #17a2b8;
+            border-bottom: 2px solid rgb(12,175,96);;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
         .section p {
             font-size: 16px;
-            color: white;
+            /* color: white; */
             line-height: 1.6;
         }
 
@@ -291,12 +262,12 @@
         }
 
         .footer-links a {
-            color: #e1e8e9;
+            color: white;
             text-decoration: none;
         }
 
         .footer-links a:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         .social-icons {
@@ -311,7 +282,7 @@
         }
 
         .social-icon:hover {
-            color: #17a2b8;
+            color: rgb(184,189,197);
         }
 
         @media (max-width: 767px) {
@@ -330,12 +301,13 @@
 
 
         .btn-custom {
-            background-color: #17a2b8;
+            background-color: rgb(12,175,96);;
             color: white;
         }
 
         .btn-custom:hover {
-            background-color: #138496;
+            background-color: rgb(11, 159, 87);
+            color: white;
         }
 
         .chart-container {
@@ -352,9 +324,6 @@
             background: white;
             color: #657081;
             border: none;
-            /* position: fixed; */
-            /* top: 10px;
-            left: 10px; */
             z-index: 1000;
         }
         .toggle-btn-header{
@@ -416,7 +385,7 @@
             display: block;
             padding: 10px 15px;
             text-align: center;
-            color: #0d6efd;
+            color: rgb(12,175,96);
             text-decoration: none;
             font-weight: 500;
             border-top: 1px solid #ddd;
@@ -496,6 +465,10 @@
         align-items: center; /* Vertically aligns items to the center */
     }
 
+    .notifications .fa-bell{
+        color:  rgb(184,189,197);
+    }
+
        
     </style>
 </head>
@@ -504,15 +477,13 @@
     <!-- Header -->
     <div class="header">
         <button class="toggle-btn toggle-btn-header" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-        <!-- <div class="logo logo-header">
-            <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo">
-        </div> -->
+      
         <div class="search-bar">
             <input type="text" class="form-control" placeholder="Search...">
         </div>
         <div class="user-info">
             <div class="notifications" onclick="toggleNotifications()">
-                <i class="fas fa-bell " style="font-size: 26px;"></i>
+                <i class="fas fa-bell " style="font-size: 29px;"></i>
                 <span class="badge">3</span>
                 <div class="notification-list">
                     <div class="notification-item">
@@ -531,11 +502,10 @@
                 </div>
             </div>
             <div class="profile">
-                <img src="https://via.placeholder.com/40" alt="User Profile">
+                <img src="https://via.placeholder.com/55" alt="User Profile">
                 <span>Jamilk Khan</span>
                 <i class="fas fa-chevron-down" style="margin-left: 10px;"></i>
-                <!-- <img src="https://via.placeholder.com/40" alt="User Profile">
-                <span>John Doe</span> -->
+               
             </div>
         </div>
     </div>
@@ -549,11 +519,9 @@
             </div>
             <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo" class="logo">
              <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
-            <!-- <img src="logo.png" alt="Brand Logo" class="logo"> -->
-            <!-- <span class="brand-name">BRAND TECH</span>
-            <p class="slogan">YOUR SLOGAN HERE</p> -->
+           
         </div>
-        <!-- <div class="brand">HRM System</div> -->
+
         <div class="menu-section">
             <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span>Overview</span></a>
             <a href="#attendance" onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span>Attendance & GPS</span> </a>
@@ -739,8 +707,8 @@
                 datasets: [{
                     label: 'Requests Overview',
                     data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: 'rgba(23, 162, 184, 0.2)',
-                    borderColor: 'rgba(23, 162, 184, 1)',
+                    backgroundColor: 'rgb(12,175,96,0.2)',
+                    borderColor: 'rgb(12,175,96,1)',
                     borderWidth: 1
                 }]
             },
