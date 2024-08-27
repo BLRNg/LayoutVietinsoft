@@ -1,0 +1,205 @@
+/* Menu tab */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px 20px;
+isolation: isolate;
+
+width: 232px;
+height: 56px;
+
+/* Foundation /Main color/main color-50 */
+background: #E7F7EF;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Menu */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 16px 0px;
+
+width: 192px;
+height: 56px;
+
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 1;
+z-index: 0;
+
+
+/* Name */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 12px;
+
+width: 192px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 1;
+
+
+/* icon/calendar-bold */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* vuesax/bold/calendar */
+
+position: absolute;
+width: 20px;
+height: 20px;
+left: 0px;
+top: 0px;
+
+
+
+/* calendar */
+
+position: absolute;
+width: 20px;
+height: 20px;
+left: 0px;
+top: 0px;
+
+
+
+/* Vector */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Foundation /Main color/main color-600 */
+background: #0B9F57;
+opacity: 0;
+/* Foundation /Main color/main color-600 */
+border: 1px solid #0B9F57;
+
+
+/* Vector */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 12.66%;
+right: 12.66%;
+top: 5.21%;
+bottom: 65.25%;
+
+/* Foundation /Main color/main color-600 */
+background: #0B9F57;
+/* Foundation /Main color/main color-600 */
+border: 1px solid #0B9F57;
+
+
+/* Vector */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 12.5%;
+right: 12.5%;
+top: 41%;
+bottom: 8.33%;
+
+/* Foundation /Main color/main color-600 */
+background: #0B9F57;
+/* Foundation /Main color/main color-600 */
+border: 1px solid #0B9F57;
+
+
+/* Dashboard */
+
+width: 160px;
+height: 24px;
+
+/* Body/Large/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 150%;
+/* identical to box height, or 24px */
+letter-spacing: 0.005em;
+
+/* Foundation /Main color/main color-600 */
+color: #0B9F57;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Icon (right) */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 12px;
+
+display: none;
+width: 60px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* border */
+
+position: absolute;
+display: none;
+width: 2px;
+height: 24px;
+left: 0px;
+top: calc(50% - 24px/2);
+
+/* Foundation /Main color/main color-600 */
+background: #0B9F57;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;

@@ -11,38 +11,46 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background-color: white;
             margin: 0;
         }
 
         .header {
-            background-color: #0d6efd;
-            color: white;
-            padding: 10px 20px;
+            background-color: white;
+            color: rgb(29, 28, 28);
+            padding: 20px 20px;
             position: fixed;
-            width: calc(100% - 250px);
-            left: 250px;
+            width: calc(100% - 270px);
+            left: 270px;
             top: 0;
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgb(240,241,242);
+            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+            /* box-shadow: ; */
             transition: width 0.3s ease, left 0.3s ease;
         }
 
         .header .logo {
             font-size: 24px;
             font-weight: bold;
+            display: none;
         }
 
         .header .search-bar {
+         
             flex-grow: 1;
-            margin: 0 20px;
+            margin: 0 40px;
         }
 
         .header .search-bar input {
-            width: 100%;
+            border-radius: 5px;
+            height: 50px;
+            width: 50%;
+            background-color: #fafafa;
         }
 
         .header .user-info {
@@ -54,6 +62,8 @@
             margin-right: 15px;
             position: relative;
         }
+
+   
 
         .header .user-info .notifications .badge {
             position: absolute;
@@ -69,35 +79,73 @@
 
         .header .user-info .profile img {
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             margin-left: 10px;
+            margin-right: 15px;
         }
        
         .sidebar {
-            background-color:  #0d6efd;
+            background-color:  white;
             height: 100vh;
             position: fixed;
-            width: 250px;
+            width: 270px;
             top: 0;
             left: 0;
-            padding-top: 60px; /* Adjusted for header height */
-            color: white;
+            padding-top: 10px; /* Adjusted for header height */
+            padding-left: 10px;
+            border-right: 1px solid rgb(240,241,242);
+            /* color: white; */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             overflow-y: auto;
         }
 
         .sidebar a {
-            color: white;
-            padding: 15px 20px;
+            border: 1px solid white;
+            background-color: white;
+            color: rgb(42,47,54);
+            /* padding: 8px 18px; */
+            padding-left: 20px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
             text-decoration: none;
-            display: block;
+            display: flex; /* Flexbox for alignment */
+            align-items: center; /* Centers items vertically */
             font-size: 16px;
+            border-radius: 9px;
             transition: background-color 0.3s ease;
         }
 
+        .sidebar a i {
+            width: 25px; /* Set a consistent width */
+            height: 25px;
+            font-size: 25px;
+            color: rgb(184,189,197);
+            margin-right: 18px;
+            transition:  font-size 0.2s ease;
+        }
+
+        .sidebar a:hover i, .sidebar a.active i{
+            /* font-size: 25px; */
+            color: rgb(12,175,96);
+        }
+
+        .common-color{
+            border: 1px solid rgb(92,201,148);
+            color: rgb(12,175,96);
+            background-color:  rgb(231,247,239);
+        }
+
+
         .sidebar a:hover, .sidebar a.active {
-            background-color:  #3282fc;
+            border-color: rgb(92,201,148);
+            color: rgb(12,175,96);
+            font-weight: bold;
+            background-color:  rgb(231,247,239);
         }
 
         .sidebar .brand {
@@ -109,6 +157,55 @@
         }
 
         .sidebar.hidden {
+            width: 100px;
+        }
+
+        .sidebar.hidden a i{
+            font-size: 30px;
+            align-items: center;
+        }
+
+        .sidebar.hidden a {
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        padding-left: 11px;       
+    }
+       .sidebar.hidden .brand .toggle-btn-sidebar{
+        display: none;
+       }
+
+        .sidebar.hidden ~ .header,
+        .sidebar.hidden ~ .main {
+            margin-left: 0;
+            width: calc(100% - 80px);
+        }
+
+        .sidebar {
+            transform: translateX(0);
+            visibility: visible;
+            transition: transform 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* .sidebar.hidden ~ .logo-header {
+            display: block;
+        } */
+
+        .sidebar.hidden ~ .toggle-btn {
+            display: none;
+        }
+
+        /* Hide text and display only icons when sidebar is hidden */
+        .sidebar.hidden a span {
+            display: none; /* Hide text */
+        }
+
+        .sidebar a i {
+            display: inline-block; /* Ensure icons are visible */
+        }
+
+
+        /* .sidebar.hidden {
             transform: translateX(-100%);
             visibility: hidden;
         }
@@ -118,6 +215,7 @@
             width: 100%;
         }
 
+    
         .sidebar {
             transform: translateX(0);
             visibility: visible;
@@ -126,7 +224,7 @@
 
         .sidebar.hidden ~ .toggle-btn {
             display: none;
-        }
+        } */
 
 
         .main {
@@ -161,7 +259,7 @@
         }
 
         .footer {
-        background-color: #0d6efd;
+        background-color: #0CAF60;
         color: white;
         padding: 30px 0;
         position: relative;
@@ -251,12 +349,12 @@
             font-size: 1.5em;
             cursor: pointer;
             padding: 10px;
-            background: #0d6efd;
-            color: white;
+            background: white;
+            color: #657081;
             border: none;
             /* position: fixed; */
-            top: 10px;
-            left: 10px;
+            /* top: 10px;
+            left: 10px; */
             z-index: 1000;
         }
         .toggle-btn-header{
@@ -366,11 +464,39 @@
             max-width: 100%; /* Ensure it doesn't exceed the container */
         }
 
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
+        .brand .logo {
+            display: inline;
+            width: 170px;
+            height: 50px;
+            margin-bottom: 30px;
+            margin-right: 10px;
+        }
 
+        .brand-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
+        .slogan {
+            font-size: 12px;
+            color: #999;
+        }
 
+        .toggle-btn-sidebar {
+           font-size: 20px;
+        }
 
+        .sidebar .logo-container {
+        display: flex;
+        align-items: center; /* Vertically aligns items to the center */
+    }
+
+       
     </style>
 </head>
 <body>
@@ -378,15 +504,15 @@
     <!-- Header -->
     <div class="header">
         <button class="toggle-btn toggle-btn-header" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-        <div class="logo">
+        <!-- <div class="logo logo-header">
             <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo">
-        </div>
+        </div> -->
         <div class="search-bar">
             <input type="text" class="form-control" placeholder="Search...">
         </div>
         <div class="user-info">
             <div class="notifications" onclick="toggleNotifications()">
-                <i class="fas fa-bell"></i>
+                <i class="fas fa-bell " style="font-size: 26px;"></i>
                 <span class="badge">3</span>
                 <div class="notification-list">
                     <div class="notification-item">
@@ -405,27 +531,43 @@
                 </div>
             </div>
             <div class="profile">
-                <span>John Doe</span>
                 <img src="https://via.placeholder.com/40" alt="User Profile">
+                <span>Jamilk Khan</span>
+                <i class="fas fa-chevron-down" style="margin-left: 10px;"></i>
+                <!-- <img src="https://via.placeholder.com/40" alt="User Profile">
+                <span>John Doe</span> -->
             </div>
         </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-        <div class="brand">HRM System</div>
-        <a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="#attendance"><i class="fas fa-calendar-check"></i> Attendance & GPS</a>
-        <a href="#contract"><i class="fas fa-file-contract"></i> Contract Management</a>
-        <a href="#notifications"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="#profile"><i class="fas fa-user"></i> Personal Profile</a>
-        <a href="#leave"><i class="fas fa-plane-departure"></i> Leave Management</a>
-        <a href="#work-confirmation"><i class="fas fa-check-circle"></i> Work Confirmation</a>
-        <a href="#overtime"><i class="fas fa-clock"></i> Overtime Registration</a>
-        <a href="#maternity"><i class="fas fa-baby"></i> Maternity Registration</a>
-        <a href="#resignation"><i class="fas fa-sign-out-alt"></i> Resignation Management</a>
-        <a href="#payroll"><i class="fas fa-dollar-sign"></i> Payroll & Security</a>
+       
+        <div class="brand">
+            <div class="logo-container">
+
+            </div>
+            <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo" class="logo">
+             <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
+            <!-- <img src="logo.png" alt="Brand Logo" class="logo"> -->
+            <!-- <span class="brand-name">BRAND TECH</span>
+            <p class="slogan">YOUR SLOGAN HERE</p> -->
+        </div>
+        <!-- <div class="brand">HRM System</div> -->
+        <div class="menu-section">
+            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span>Overview</span></a>
+            <a href="#attendance" onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span>Attendance & GPS</span> </a>
+            <a href="#contract" onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span>Contract Management</span> </a>
+            <a href="#notifications" onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span>Notifications</span> </a>
+            <a href="#profile" onclick="setActive(this); event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span>Personal Profile</span> </a>
+            <a href="#leave" onclick="setActive(this); event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span>Leave Management</span> </a>
+            <a href="#work-confirmation" onclick="setActive(this); event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span>Work Confirmation</span> </a>
+            <a href="#overtime" onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span>Overtime Registration</span> </a>
+            <a href="#maternity" onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span>Maternity Registration</span> </a>
+            <a href="#resignation" onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span>Resignation Management</span> </a>
+            <a href="#payroll" onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span> Payroll & Security</span></a>
+        </div>
+        
     </div>
 
     <!-- Main Content -->
@@ -523,7 +665,7 @@
 
           <!-- Footer -->
     <footer class="footer section">
-        <div class="container">
+        <div class="container ">
             <div class="row">
                 <div class="col-md-4">
                     <h4>About Us</h4>
@@ -613,6 +755,32 @@
         });
     </script>
     <script>
+
+    function scrollToSection(destination) {
+        const target = document.querySelector(destination);
+
+        // Get the target's current position relative to the top of the document
+        const rect = target.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Scroll to the target's position plus the additional left margin of 50px
+        window.scrollTo({
+            top: scrollTop + rect.top,
+            left: scrollLeft + rect.left - 500, // Subtract 50px to include the margin
+            behavior: 'smooth'
+        });
+    }
+
+        function setActive(element) {
+            const links = document.querySelectorAll('.sidebar a');
+           
+            links.forEach(link => link.classList.remove('active'));
+
+            element.classList.add('active');
+          
+        }
+
        function toggleNotifications() {
         const notificationList = document.querySelector('.notification-list');
         const badge = document.querySelector('.badge');
@@ -655,10 +823,10 @@
             if (sidebar.classList.contains('hidden')) {
                 header.style.width = '100%';
                 header.style.left = '0';
-                main.style.marginLeft = '0';
+                main.style.marginLeft = '80px';
             } else {
-                header.style.width = 'calc(100% - 250px)';
-                header.style.left = '250px';
+                header.style.width = 'calc(100% - 270px)';
+                header.style.left = '270px';
                 main.style.marginLeft = '250px';
             }
         }

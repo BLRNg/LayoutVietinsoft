@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Floopyinn Logo">
+                <h2>Floopyinn</h2>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item active"><i class="fas fa-th-large"></i> Overview</a>
+                <a href="#" class="menu-item"><i class="fas fa-calendar"></i> Meeting</a>
+                <a href="#" class="menu-item"><i class="fas fa-envelope"></i> Message</a>
+                <a href="#" class="menu-item"><i class="fas fa-project-diagram"></i> Project</a>
+                <a href="#" class="menu-item"><i class="fas fa-ticket-alt"></i> Ticket</a>
+                <a href="#" class="menu-item"><i class="fas fa-users"></i> Employee</a>
+                <a href="#" class="menu-item"><i class="fas fa-user-check"></i> Attendance</a>
+                <a href="#" class="menu-item"><i class="fas fa-bell"></i> Notice</a>
+                <a href="#" class="menu-item"><i class="fas fa-briefcase"></i> HR Tab</a>
+                <a href="#" class="menu-item"><i class="fas fa-building"></i> Organization</a>
+                <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> Account</a>
+                <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search here">
+                </div>
+                <div class="user-info">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i><span class="badge">13</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="user-profile.jpg" alt="User Profile">
+                        <span>Jamilk Khan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <section class="dashboard-cards">
+                <div class="card attendance-card">
+                    <h3>Attendance</h3>
+                    <p>90/100 Today</p>
+                    <span class="percentage">90%</span>
+                </div>
+                <div class="card project-card">
+                    <h3>Active Project</h3>
+                    <p>245/5378 All Over</p>
+                    <span class="percentage">45%</span>
+                </div>
+                <div class="card complete-card">
+                    <h3>Complete Project</h3>
+                    <p>145/3378 All Over</p>
+                    <span class="percentage">79%</span>
+                </div>
+            </section>
+
+            <section class="task-updates">
+                <h3>Task Updates <span>(9 unread notifications)</span></h3>
+                <div class="task">
+                    <input type="checkbox">
+                    <p>We need more details about this project like typography, colour, icon...</p>
+                    <div class="task-actions">
+                        <i class="fas fa-reply"></i>
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+                <div class="task">
+                    <input type="checkbox">
+                    <p>We need more details about this project like typography, colour, icon...</p>
+                    <div class="task-actions">
+                        <i class="fas fa-reply"></i>
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+                <div class="task">
+                    <input type="checkbox">
+                    <p>We need more details about this project like typography, colour, icon...</p>
+                    <div class="task-actions">
+                        <i class="fas fa-reply"></i>
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+            </section>
+
+            <section class="calendar-meetings">
+                <div class="calendar">
+                    <div class="date">
+                        <p>SU</p>
+                        <p>12</p>
+                    </div>
+                    <div class="date">
+                        <p>MO</p>
+                        <p>13</p>
+                    </div>
+                    <div class="date">
+                        <p>TU</p>
+                        <p>14</p>
+                    </div>
+                    <div class="date active">
+                        <p>WE</p>
+                        <p>15</p>
+                    </div>
+                    <div class="date">
+                        <p>TH</p>
+                        <p>16</p>
+                    </div>
+                    <div class="date">
+                        <p>FR</p>
+                        <p>17</p>
+                    </div>
+                    <div class="date">
+                        <p>SA</p>
+                        <p>18</p>
+                    </div>
+                </div>
+                <div class="meetings">
+                    <div class="meeting">
+                        <p>Meeting with UI designer</p>
+                        <p>9:00 AM to 11:30 AM</p>
+                    </div>
+                    <button class="add-meeting">+ Add Meeting</button>
+                </div>
+            </section>
+
+            <section class="upcoming-projects">
+                <h3>Upcoming Projects <span>Monthly</span></h3>
+                <ul class="projects-list">
+                    <li class="project">
+                        <p>Restaurant Landing Page Re Design</p>
+                        <p>Work to be done or undertaken</p>
+                    </li>
+                    <li class="project">
+                        <p>School Landing Page Development</p>
+                        <p>Work to be done or undertaken</p>
+                    </li>
+                    <li class="project">
+                        <p>E Commerce Landing Page</p>
+                        <p>Work to be done or undertaken</p>
+                    </li>
+                    <!-- Add more project items as needed -->
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
