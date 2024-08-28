@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chart.js/4.3.0/chart.min.css">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             background-color: white;
             margin: 0;
         }
@@ -33,17 +33,35 @@
         }
 
      
-        .header .search-bar {
-         
+        .search-container {
+            position: relative;
             flex-grow: 1;
-            margin: 0 40px;
+            margin-left: 40px;
         }
 
-        .header .search-bar input {
-            border-radius: 5px;
-            height: 50px;
-            width: 50%;
-            background-color: #fafafa;
+        .search-input {
+            width: 30%;
+            padding: 10px 20px 10px 40px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f8f8f8;
+            font-size: 16px;
+            color: #6c757d;
+            outline: none;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #495057;
+            font-size: 18px;
         }
 
         .header .user-info {
@@ -111,6 +129,7 @@
             font-size: 16px;
             border-radius: 9px;
             transition: background-color 0.3s ease;
+            position: relative;
         }
 
         .sidebar a i {
@@ -141,6 +160,31 @@
             background-color:  rgb(231,247,239);
         }
 
+        
+        .sidebar a.active::before {
+            content: '';
+            position: absolute;
+            left: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 30px;
+            background-color: #28a745;
+            border-radius: 2px;
+        }
+
+        .sidebar .badge {
+            background-color: #dc3545;
+            color: #ffffff;
+            padding: 5px 8px;
+            border-radius: 50%;
+            font-size: 15px;
+            margin-left: auto;
+            margin-right: 8px;
+        }
+
+
+     
         .sidebar .brand {
             font-size: 24px;
             font-weight: bold;
@@ -180,15 +224,24 @@
             transition: transform 0.3s ease, visibility 0.3s ease;
         }
 
-     
-
-        .sidebar.hidden ~ .toggle-btn {
-            display: none;
+            
+        .sidebar.hidden ~ .search-input{
+            /* display: none; */
+            width: 50%;
+           /* position: absolute; */
         }
 
         /* Hide text and display only icons when sidebar is hidden */
-        .sidebar.hidden a span {
+        .sidebar.hidden a span.text-sidebar-item {
             display: none; /* Hide text */
+        }
+
+        .sidebar.hidden a span.badge{
+            position: absolute;
+            top: 2px;
+            right: 9px;
+            font-size: 12px;
+            border-radius: 6px;
         }
 
         .sidebar a i {
@@ -469,6 +522,9 @@
         color:  rgb(184,189,197);
     }
 
+    
+   
+
        
     </style>
 </head>
@@ -477,9 +533,9 @@
     <!-- Header -->
     <div class="header">
         <button class="toggle-btn toggle-btn-header" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-      
-        <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search...">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input form-control" placeholder="Search...">
         </div>
         <div class="user-info">
             <div class="notifications" onclick="toggleNotifications()">
@@ -523,17 +579,18 @@
         </div>
 
         <div class="menu-section">
-            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span>Overview</span></a>
-            <a href="#attendance" onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span>Attendance & GPS</span> </a>
-            <a href="#contract" onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span>Contract Management</span> </a>
-            <a href="#notifications" onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span>Notifications</span> </a>
-            <a href="#profile" onclick="setActive(this); event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span>Personal Profile</span> </a>
-            <a href="#leave" onclick="setActive(this); event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span>Leave Management</span> </a>
-            <a href="#work-confirmation" onclick="setActive(this); event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span>Work Confirmation</span> </a>
-            <a href="#overtime" onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span>Overtime Registration</span> </a>
-            <a href="#maternity" onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span>Maternity Registration</span> </a>
-            <a href="#resignation" onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span>Resignation Management</span> </a>
-            <a href="#payroll" onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span> Payroll & Security</span></a>
+            
+            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+            <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
+            <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a>
+            <a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a>
+            <a href="#profile"  onclick="setActive(this); event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span class="text-sidebar-item">Personal Profile</span> </a>
+            <a href="#leave"  onclick="setActive(this); event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span class="text-sidebar-item">Leave Management</span> </a>
+            <a href="#work-confirmation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span class="text-sidebar-item">Work Confirmation</span> </a>
+            <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a>
+            <a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a>
+            <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a>
+            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a>
         </div>
         
     </div>
