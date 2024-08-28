@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    overflow-y: auto;
+}
+
+.tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree > li {
+    border-bottom: 1px solid #444;
+}
+
+.tree > li > a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tree > li > a:hover {
+    background-color: #555;
+}
+
+.tree ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Hide all submenus by default */
+}
+
+.tree li:hover > ul {
+    display: block; /* Show submenu on hover */
+}
+
+.tree li > ul > li > a {
+    padding: 10px 20px;
+    color: #ddd;
+    text-decoration: none;
+}
+
+.tree li > ul > li > a:hover {
+    background-color: #444;
+}
+
+.tree li > ul > li > ul > li > a {
+    padding: 10px 30px;
+    color: #bbb;
+    text-decoration: none;
+}
+
+.tree li > ul > li > ul > li > a:hover {
+    background-color: #333;
+}
