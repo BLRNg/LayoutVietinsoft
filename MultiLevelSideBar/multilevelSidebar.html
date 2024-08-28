@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tree Example</title>
     <style>
-        .sidebar {
+        .sidebar-data {
             width: 250px;
             border-right: 1px solid #ddd;
             padding: 10px;
@@ -42,7 +42,7 @@
     <button class="back-button" onclick="goBack()">Go Back</button>
 <div id="sidebar-render"></div>
 
-<div class="sidebar">
+<div class="sidebar-data">
     <ul class="tree">
         <li>
             <a href="https://chatgpt.com/">Item 1</a>
@@ -125,7 +125,7 @@
         let currentPath = `${path} > li:nth-child(${index + 1}) > a`;
         
         let node = {
-            selectorPath: `.sidebar .tree${currentPath}`, // Replace inner text with the selector string
+            selectorPath: `.sidebar-data .tree${currentPath}`, // Replace inner text with the selector string
             html: li.querySelector('a').outerHTML,
             children: []
         };

@@ -523,7 +523,10 @@
     }
 
     
-   
+    .sidebar-data {
+           
+            display: none;
+        }
 
        
     </style>
@@ -577,10 +580,10 @@
              <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
            
         </div>
-
-        <div class="menu-section">
+        <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i>    <span class="text-sidebar-item">Back </span> </a>
+        <div class="menu-section" id="sidebar-render">
             
-            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+            <!-- <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
             <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
             <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a>
             <a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a>
@@ -590,8 +593,37 @@
             <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a>
             <a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a>
             <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a>
-            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a>
+            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a> -->
         </div>
+
+
+        <div class="sidebar-data">
+            <ul class="tree">
+                <li>
+                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                    <ul>
+                        <li><a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a></li>
+                        <li> <a href="#profile"  onclick="setActive(this); event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span class="text-sidebar-item">Personal Profile</span> </a></li>
+                        <li>
+                            <a href="#leave"  onclick="setActive(this); event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span class="text-sidebar-item">Leave Management</span> </a>
+                            <ul>
+                                <li><a href="#work-confirmation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span class="text-sidebar-item">Work Confirmation</span> </a></li>
+                                <li> <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
+                    <ul>
+                        <li><a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a></li>
+                        <li> <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a></li>
+                    </ul>
+                </li>
+                <li> <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a></li>
+            </ul>
+        </div>
+        
         
     </div>
 
@@ -856,6 +888,211 @@
             }
         }
 
+    </script>
+    <script>
+        //create a stack
+        class Stack {
+            constructor() {
+                this.items = [];
+            }
+    
+            // Push an item onto the stack
+            push(element) {
+                this.items.push(element);
+            }
+    
+            // Pop an item off the stack
+            pop() {
+                if (this.isEmpty()) {
+                throw new Error('Stack is empty');
+                }
+                return this.items.pop();
+            }
+    
+            // Peek at the top item of the stack
+            peek() {
+                if (this.isEmpty()) {
+                throw new Error('Stack is empty');
+                }
+                return this.items[this.items.length - 1];
+            }
+    
+            // Check if the stack is empty
+            isEmpty() {
+                return this.items.length === 0;
+            }
+    
+            // Get the size of the stack
+            size() {
+                return this.items.length;
+            }
+    
+            // Clear all items from the stack
+            clear() {
+                this.items = [];
+            }
+    
+            // Print the stack
+            print() {
+                console.log(this.items.toString());
+            }
+        }
+        ////For Tree
+      function parseTree(element, path = '') {
+        let tree = [];
+        element.querySelectorAll(':scope > li').forEach((li, index) => {
+            // Construct the selector string based on the current path and index
+            let currentPath = `${path} > li:nth-child(${index + 1}) > a`;
+            
+            let node = {
+                selectorPath: `.sidebar-data .tree${currentPath}`, // Replace inner text with the selector string
+                html: li.querySelector('a').outerHTML,
+                children: []
+            };
+            
+            let ul = li.querySelector(':scope > ul');
+            if (ul) {
+                // Recursively parse the children, passing the updated path
+                node.children = parseTree(ul, `${path} > li:nth-child(${index + 1}) > ul`);
+            }
+            
+            tree.push(node);
+        });
+        return tree;
+    }
+    
+    function findChildTree(tree, selectorPath) {
+        let result = [];
+    
+        function traverse(nodes, path, depth) {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].selectorPath === path) {
+                    result = nodes[i].children;
+                    return;
+                }
+                if (nodes[i].children.length > 0) {
+                    traverse(nodes[i].children, path, depth + 1);
+                }
+            }
+        }
+    
+        traverse(tree, selectorPath, 0);
+        return result;
+    }
+    
+    
+    function findElementBySelectorPath(tree, selectorPath) {
+        let result = null;
+    
+        function traverse(nodes, path) {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].selectorPath === path) {
+                    result = nodes[i].html;
+                    return;
+                }
+                if (nodes[i].children.length > 0) {
+                    traverse(nodes[i].children, path);
+                }
+            }
+        }
+    
+        traverse(tree, selectorPath);
+        return result;
+    }
+    
+    // Usage
+    
+    function generateUUID() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+    
+    const sideBarMap = new Map();
+    const historyStack = new Stack();
+    const htmlTree = document.querySelector('.tree');
+    const treeStructure = parseTree(htmlTree);
+    
+    /////////////
+    function renderElementsFromPaths(paths, container) {
+       
+        if(paths.length > 0){
+            document.getElementById(container).innerHTML = '';
+            historyStack.push(paths);
+           
+        }else{
+            return;
+        }
+    
+        // const treeStructure = parseTree(document.querySelector('.tree'));
+        const containerElement = document.getElementById(container);
+        
+        paths.forEach(selectorPath => {
+            const elementHtml = findElementBySelectorPath(treeStructure, selectorPath);
+            if (elementHtml) {
+                const uniqueId = generateUUID();
+                // Create a new HTML string with the unique ID
+                const elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `);
+                containerElement.innerHTML += elementHtmlWithId ; // Use <br> for line breaks
+                sideBarMap.set(uniqueId,selectorPath);
+            } else {
+                containerElement.innerHTML += 'Element not found for ' + selectorPath + '<br>';
+            }
+        });
+    
+       
+          // Add event listeners to newly rendered elements
+          containerElement.querySelectorAll('a').forEach(element => {
+            element.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link action
+               
+              
+                const currentTree = findChildTree(treeStructure, sideBarMap.get(this.id).toString());
+                let arraySelectorPath = [];
+                currentTree.forEach(obj =>{
+                    arraySelectorPath.push(obj.selectorPath);
+                });
+              
+                renderElementsFromPaths(arraySelectorPath, container);
+               
+            });
+        });
+    }
+    
+    function goBack() {
+        if(historyStack.size() > 1){
+            historyStack.pop();
+            renderElementsFromPaths(historyStack.pop(), 'sidebar-render');
+        }else{
+            const backButton = document.getElementById('backButton');
+            backButton.style.display = 'none';
+        }
+        if(historyStack.size() == 1){
+            const backButton = document.getElementById('backButton');
+            backButton.style.display = 'none';
+        }
+
+  
+
+        // if(historyStack.size == 3){
+        //     const backButton = document.getElementById('backButton');
+        //     backButton.style.display = 'none';
+        // }
+       
+        // console.log(historyStack.pop());
+        // historyStack.print();
+     }
+    
+    // Example Usage
+    const selectorPathsToFind = [];
+    
+    treeStructure.forEach(obj =>{
+        selectorPathsToFind.push(obj.selectorPath);
+    });
+    
+    renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
+    
+    
     </script>
     
 </body>
