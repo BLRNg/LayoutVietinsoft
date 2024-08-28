@@ -22,16 +22,30 @@
             text-decoration: none;
             color: #333;
         }
+
+        .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+    }
     </style>
 </head>
 <body>
-
+    <button class="back-button" onclick="goBack()">Go Back</button>
 <div id="sidebar-render"></div>
 
 <div class="sidebar">
     <ul class="tree">
         <li>
-            <a href="#">Item 1</a>
+            <a href="https://chatgpt.com/">Item 1</a>
             <ul>
                 <li><a href="#">Subitem 1.1</a></li>
                 <li><a href="#">Subitem 1.2</a></li>
@@ -56,6 +70,54 @@
 </div>
 
 <script>
+    //create a stack
+    class Stack {
+        constructor() {
+            this.items = [];
+        }
+
+        // Push an item onto the stack
+        push(element) {
+            this.items.push(element);
+        }
+
+        // Pop an item off the stack
+        pop() {
+            if (this.isEmpty()) {
+            throw new Error('Stack is empty');
+            }
+            return this.items.pop();
+        }
+
+        // Peek at the top item of the stack
+        peek() {
+            if (this.isEmpty()) {
+            throw new Error('Stack is empty');
+            }
+            return this.items[this.items.length - 1];
+        }
+
+        // Check if the stack is empty
+        isEmpty() {
+            return this.items.length === 0;
+        }
+
+        // Get the size of the stack
+        size() {
+            return this.items.length;
+        }
+
+        // Clear all items from the stack
+        clear() {
+            this.items = [];
+        }
+
+        // Print the stack
+        print() {
+            console.log(this.items.toString());
+        }
+    }
+    ////For Tree
   function parseTree(element, path = '') {
     let tree = [];
     element.querySelectorAll(':scope > li').forEach((li, index) => {
@@ -79,7 +141,7 @@
     return tree;
 }
 
-function findIndexInTree(tree, selectorPath) {
+function findChildTree(tree, selectorPath) {
     let result = [];
 
     function traverse(nodes, path, depth) {
@@ -118,77 +180,84 @@ function findElementBySelectorPath(tree, selectorPath) {
     return result;
 }
 
-
 // Usage
+
+function generateUUID() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+const sideBarMap = new Map();
+const historyStack = new Stack();
 const htmlTree = document.querySelector('.tree');
 const treeStructure = parseTree(htmlTree);
-console.log(treeStructure);
-
-
-// Usage
-const selectorPathToFind = '.sidebar .tree > li:nth-child(2) > a';
-const index = findIndexInTree(treeStructure, selectorPathToFind);
-console.log("Index of element:", index);
-
-//How to render element with selector path '.sidebar .tree > li:nth-child(2) > a' into <div id="sidebar-render"></div>
-// Usage
-// const selectorPathToFind = '.sidebar .tree > li:nth-child(2) > a';
-const elementContent =  findElementBySelectorPath(treeStructure, selectorPathToFind);
-console.log("Content of element:", elementContent);
-
-// Render the element into <div id="sidebar-render"></div>
-// const sidebarRenderDiv = document.getElementById('sidebar-render');
-// if (elementContent) {
-//     sidebarRenderDiv.innerHTML = elementContent;
-// } else {
-//     sidebarRenderDiv.innerHTML = 'Element not found';
-// }
-// Array of selector paths
-
-
-
-// const selectorPathsToFind = [
-//     '.sidebar .tree > li:nth-child(1) > a',
-//     '.sidebar .tree > li:nth-child(2) > a',
-//     '.sidebar .tree > li:nth-child(3) > a'
-// ];
-
-// // Render each element into <div id="sidebar-render"></div>
-// const sidebarRenderDiv = document.getElementById('sidebar-render');
-// selectorPathsToFind.forEach(selectorPath => {
-//     const elementHtml = findElementBySelectorPath(treeStructure, selectorPath);
-//     if (elementHtml) {
-//         // Append the HTML content to the sidebar-render div
-//         sidebarRenderDiv.innerHTML += elementHtml + '<br>'; // Use <br> for line breaks
-//     } else {
-//         sidebarRenderDiv.innerHTML += 'Element not found for ' + selectorPath + '<br>';
-//     }
-// });
-
 
 /////////////
 function renderElementsFromPaths(paths, container) {
-    const treeStructure = parseTree(document.querySelector('.tree'));
+   
+    if(paths.length > 0){
+        document.getElementById(container).innerHTML = '';
+        historyStack.push(paths);
+       
+    }else{
+        return;
+    }
+
+    // const treeStructure = parseTree(document.querySelector('.tree'));
     const containerElement = document.getElementById(container);
     
     paths.forEach(selectorPath => {
         const elementHtml = findElementBySelectorPath(treeStructure, selectorPath);
         if (elementHtml) {
-            containerElement.innerHTML += elementHtml + '<br>'; // Use <br> for line breaks
+            const uniqueId = generateUUID();
+            // Create a new HTML string with the unique ID
+            const elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `);
+            containerElement.innerHTML += elementHtmlWithId + '<br>'; // Use <br> for line breaks
+            sideBarMap.set(uniqueId,selectorPath);
         } else {
             containerElement.innerHTML += 'Element not found for ' + selectorPath + '<br>';
         }
     });
+
+   
+      // Add event listeners to newly rendered elements
+      containerElement.querySelectorAll('a').forEach(element => {
+        element.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link action
+           
+          
+            const currentTree = findChildTree(treeStructure, sideBarMap.get(this.id).toString());
+            let arraySelectorPath = [];
+            currentTree.forEach(obj =>{
+                arraySelectorPath.push(obj.selectorPath);
+            });
+          
+            renderElementsFromPaths(arraySelectorPath, container);
+           
+        });
+    });
 }
 
+function goBack() {
+    if(historyStack.size() > 1){
+        historyStack.pop();
+        renderElementsFromPaths(historyStack.pop(), 'sidebar-render');
+    }
+   
+    // console.log(historyStack.pop());
+    // historyStack.print();
+ }
+
 // Example Usage
-const selectorPathsToFind = [
-    '.sidebar .tree > li:nth-child(1) > a',
-    '.sidebar .tree > li:nth-child(2) > a',
-    '.sidebar .tree > li:nth-child(3) > a'
-];
+const selectorPathsToFind = [];
+
+treeStructure.forEach(obj =>{
+    selectorPathsToFind.push(obj.selectorPath);
+});
 
 renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
+
 
 </script>
 
