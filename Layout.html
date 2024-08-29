@@ -528,6 +528,10 @@
             display: none;
         }
 
+    .sidebar-parent-icon{
+        margin-left: auto;
+    }
+
        
     </style>
 </head>
@@ -580,7 +584,8 @@
              <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
            
         </div>
-        <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i>    <span class="text-sidebar-item">Back </span> </a>
+        <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i> 
+            <span class="text-sidebar-item">Back </span> </a>
         <div class="menu-section" id="sidebar-render">
             
             <!-- <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
@@ -982,12 +987,19 @@
     
     
     function findElementBySelectorPath(tree, selectorPath) {
-        let result = null;
+        
+        let result = {
+            html: null,
+            isHasChild: false
+        };
     
         function traverse(nodes, path) {
             for (let i = 0; i < nodes.length; i++) {
                 if (nodes[i].selectorPath === path) {
-                    result = nodes[i].html;
+                    result.html = nodes[i].html;
+                    if(nodes[i].children.length > 0){
+                        result.isHasChild = true;
+                    }
                     return;
                 }
                 if (nodes[i].children.length > 0) {
@@ -1037,11 +1049,17 @@
         const containerElement = document.getElementById(container);
         
         paths.forEach(selectorPath => {
-            const elementHtml = findElementBySelectorPath(treeStructure, selectorPath);
+            const result = findElementBySelectorPath(treeStructure, selectorPath);
+            const elementHtml = result.html;
             if (elementHtml) {
                 const uniqueId = generateUUID();
                 // Create a new HTML string with the unique ID
-                const elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `);
+                let elementHtmlWithId = "";
+                if(result.isHasChild){
+                     elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `).replace('</a>', '<i class="fas fa-chevron-right sidebar-parent-icon"></i></a>');
+                }else{
+                     elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `);
+                }
                 containerElement.innerHTML += elementHtmlWithId ; // Use <br> for line breaks
                 sideBarMap.set(uniqueId,selectorPath);
             } else {
