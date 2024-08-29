@@ -1019,7 +1019,16 @@
         if(paths.length > 0){
             document.getElementById(container).innerHTML = '';
             historyStack.push(paths);
-           
+            if(historyStack.size() == 2){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'block';
+            }
+
+            if(historyStack.size() == 1){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'none';
+            }
+
         }else{
             return;
         }
@@ -1063,24 +1072,15 @@
         if(historyStack.size() > 1){
             historyStack.pop();
             renderElementsFromPaths(historyStack.pop(), 'sidebar-render');
-        }else{
-            const backButton = document.getElementById('backButton');
-            backButton.style.display = 'none';
-        }
-        if(historyStack.size() == 1){
-            const backButton = document.getElementById('backButton');
-            backButton.style.display = 'none';
-        }
 
-  
+            if(historyStack.size() == 1){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'none';
+            }
 
-        // if(historyStack.size == 3){
-        //     const backButton = document.getElementById('backButton');
-        //     backButton.style.display = 'none';
-        // }
-       
-        // console.log(historyStack.pop());
-        // historyStack.print();
+        }
+        
+
      }
     
     // Example Usage
