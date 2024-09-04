@@ -6,33 +6,93 @@
     <title>Advanced HRM System</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chart.js/4.3.0/chart.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: white;
-            margin: 0;
+        /* Global var */
+        :root{
+            --white-background: #ffffff;
+            --black-textcolor: rgb(29, 28, 28);
+            --white-textcolor: #ffffff;
+            --gray-border: rgb(240,241,242);
+            --box-shadow: rgba(0, 0, 0, 0.1);
+            --sidebar-width: 270px;
+            --notify-color: #E03137;
+            --icon-color: rgb(184,189,197);
+            --green-color: rgb(12,175,96);
+            --green-hover-color: rgb(11, 159, 87);
+            --green-border-color: rgb(92,201,148);
+            --notification-time-color: #888;
+            --notification-item-hover-color: #f1f1f1;
+
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--white-background);
+            margin: 0;
+        }
+        /*Starting header area */
+
         .header {
-            background-color: white;
-            color: rgb(29, 28, 28);
+            background-color: var(--white-background);
+            color: var(--black-textcolor);
             padding: 11px 20px;
             position: fixed;
-            width: calc(100% - 270px);
-            left: 270px;
+            width: calc(100% - var(--sidebar-width));
+            left: var(--sidebar-width);
             top: 0;
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /* box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1); */
-            border-bottom: 1px solid rgb(240,241,242);
+            border-bottom: 1px solid var(--gray-border);
             transition: width 0.3s ease, left 0.3s ease;
         }
 
-     
+        .header .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user-info .notifications {
+            margin-right: 15px;
+            position: relative;
+        }
+
+        .header .user-info .notifications .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--notify-color);
+        }
+
+        .header .user-info .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .user-info .profile img {
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            margin-left: 10px;
+            margin-right: 15px;
+        }
+
         .search-container {
             position: relative;
             flex-grow: 1;
@@ -48,7 +108,7 @@
             font-size: 16px;
             color: #6c757d;
             outline: none;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 1px var(--box-shadow);
         }
 
         .search-input::placeholder {
@@ -64,60 +124,119 @@
             font-size: 18px;
         }
 
-        .header .user-info {
+        /* Toggle Button Styles */
+        .toggle-btn {
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 10px;
+            background: var(--white-background);
+            color: var(--black-textcolor);
+            border: none;
+            z-index: 1000;
+        }
+        .toggle-btn-header{
+            display: none;
+        }
+
+        .toggle-btn-sidebar{
+            position: fixed;
+        }
+
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        /* Notification list styles */
+        .notification-list {
+        display: none;
+        position: absolute;
+        top: 100%; 
+        right: 0;
+        background: var(--white-background);
+        color: var(--black-textcolor);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        width: 300px; 
+        z-index: 1000; 
+        overflow: hidden;
+        animation: fadeIn 0.3s ease-out;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--box-shadow);
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .header .user-info .notifications {
-            margin-right: 15px;
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: var(--notification-item-hover-color);
+        }
+
+        .notification-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .notification-time {
+            font-size: 14px;
+            color: var(--notification-time-color);
+        }
+
+        .view-all {
+            display: block;
+            padding: 10px 15px;
+            text-align: center;
+            color: var(--green-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-top: 1px solid #ddd;
+        }
+
+        .view-all:hover {
+            background-color: var(--notification-item-hover-color);
+            border-top: 1px solid var(--box-shadow);
+        }
+
+        .notifications {
             position: relative;
+            cursor: pointer;
+        }
+        .badge {
+            transition: opacity 0.3s ease;
         }
 
-   
-
-        .header .user-info .notifications .badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #E03137;
+        .notification-list {
+            transition: opacity 0.3s ease;
         }
+        /*End header area */
 
-        .header .user-info .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .user-info .profile img {
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            margin-left: 10px;
-            margin-right: 15px;
-        }
-       
+        /* Starting sidebar area */
         .sidebar {
-            background-color:  white;
+            background-color:  var(--white-background);
             height: 100vh;
             position: fixed;
-            width: 270px;
+            width: var(--sidebar-width);
             top: 0;
             left: 0;
-            padding-top: 10px; /* Adjusted for header height */
+            padding-top: 10px; 
             padding-left: 10px;
-            border-right: 1px solid rgb(240,241,242);
-            /* color: white; */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid var(--gray-border);
+            box-shadow: 0 4px 10px var(--box-shadow);
             transition: all 0.3s ease;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
         .sidebar a {
-            border: 1px solid white;
-            background-color: white;
-            color: rgb(42,47,54);
-            /* padding: 8px 18px; */
+            border: 1px solid var(--white-background);
+            background-color: var(--white-background);
+            color: var(--black-textcolor);
             padding-left: 20px;
             padding-top: 15px;
             padding-bottom: 15px;
@@ -137,26 +256,18 @@
             width: 25px; /* Set a consistent width */
             height: 25px;
             font-size: 25px;
-            color: rgb(184,189,197);
+            color: var(--icon-color);
             margin-right: 18px;
-            transition:  font-size 0.2s ease;
+            transition:  font-size 0.3s ease;
         }
 
         .sidebar a:hover i, .sidebar a.active i{
-            /* font-size: 25px; */
-            color: rgb(12,175,96);
+            color: var(--green-color);
         }
-
-        .common-color{
-            border: 1px solid rgb(92,201,148);
-            color: rgb(12,175,96);
-            background-color:  rgb(231,247,239);
-        }
-
 
         .sidebar a:hover, .sidebar a.active {
-            border-color: rgb(92,201,148);
-            color: rgb(12,175,96);
+            border-color: var(--green-border-color);
+            color: var(--green-color);
             font-weight: bold;
             background-color:  rgb(231,247,239);
         }
@@ -170,13 +281,13 @@
             transform: translateY(-50%);
             width: 3px;
             height: 30px;
-            background-color: #28a745;
+            background-color: var(--green-color);
             border-radius: 2px;
         }
 
         .sidebar .badge {
-            background-color: #dc3545;
-            color: #ffffff;
+            background-color: var(--notify-color);
+            color: var(--white-textcolor);
             padding: 5px 8px;
             border-radius: 50%;
             font-size: 15px;
@@ -184,8 +295,6 @@
             margin-right: 8px;
         }
 
-
-     
         .sidebar .brand {
             font-size: 24px;
             font-weight: bold;
@@ -204,11 +313,12 @@
         }
 
         .sidebar.hidden a {
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        padding-left: 11px;       
-    }
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            padding-left: 11px;       
+        }
+
        .sidebar.hidden .brand .toggle-btn-sidebar{
         display: none;
        }
@@ -227,16 +337,12 @@
 
             
         .sidebar.hidden ~ .search-input{
-            /* display: none; */
             width: 50%;
-           /* position: absolute; */
         }
 
-        /* Hide text and display only icons when sidebar is hidden */
         .sidebar.hidden a span.text-sidebar-item {
-            display: none; /* Hide text */
+            display: none; 
         }
-
         .sidebar.hidden a span.badge{
             position: absolute;
             top: 2px;
@@ -249,6 +355,55 @@
             display: inline-block; 
         }
 
+         /* Logo styles */
+         .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px; 
+            width: auto;
+            max-width: 100%; 
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand .logo {
+            display: inline;
+            width: 170px;
+            height: 50px;
+            margin-bottom: 30px;
+            margin-right: 10px;
+        }
+
+        .toggle-btn-sidebar {
+           font-size: 20px;
+        }
+
+        .sidebar .logo-container {
+            display: flex;
+            align-items: center; 
+        }
+
+        .notifications .fa-bell{
+            color:  var(--icon-color);
+        }
+
+       .sidebar-data {
+            display: none;
+        }
+
+        .sidebar-parent-icon{
+            margin-left: auto;
+        }
+
+        /* End sidebar area */
+
+        /* Starting main area */
 
         .main {
             margin-left: 250px;
@@ -259,12 +414,12 @@
 
         .section {
             background-color: rgb(12,175,96,0.1);
-            border: 1px solid rgb(12,175,96,1);
-            color: rgb(56, 62, 71);
+            border: 1px solid var(--green-border-color);
+            color: var(--black-textcolor);
             padding: 25px;
             margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px var(--box-shadow);
         }
 
         .section h2 {
@@ -272,29 +427,47 @@
             color: #343a40;
             font-weight: 600;
             font-size: 22px;
-            border-bottom: 2px solid rgb(12,175,96);;
+            border-bottom: 2px solid var(--green-color);
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
         .section p {
             font-size: 16px;
-            /* color: white; */
             line-height: 1.6;
         }
 
+        .btn-custom {
+            background-color: var(--green-color);
+            color: var(--white-textcolor);
+        }
+
+        .btn-custom:hover {
+            background-color: var(--green-hover-color);
+            color: var(--white-textcolor);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+         /* End main area */
+
+         /* Starting footer area */
         .footer {
-        background-color: #0CAF60;
-        color: white;
-        padding: 30px 0;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-    }
+            background-color: var(--green-color);
+            color: var(--white-textcolor);
+            padding: 30px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
 
         .footer h4 {
-            color: #ffffff;
+            color: var(--white-textcolor);
             margin-bottom: 15px;
             font-size: 18px;
             font-weight: 600;
@@ -316,7 +489,7 @@
         }
 
         .footer-links a {
-            color: white;
+            color: var(--white-textcolor);;
             text-decoration: none;
         }
 
@@ -330,15 +503,18 @@
         }
 
         .social-icon {
-            color: #ffffff;
+            color: var(--white-textcolor);
             font-size: 20px;
             text-decoration: none;
         }
 
         .social-icon:hover {
-            color: rgb(184,189,197);
+            color: var(--icon-color);
         }
 
+         /* End footer area */
+
+        /* Starting responsive */
         @media (max-width: 767px) {
             .footer {
                 padding: 20px 0;
@@ -352,186 +528,7 @@
                 font-size: 12px;
             }
         }
-
-
-        .btn-custom {
-            background-color: rgb(12,175,96);;
-            color: white;
-        }
-
-        .btn-custom:hover {
-            background-color: rgb(11, 159, 87);
-            color: white;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 20px;
-        }
-
-         /* Toggle Button Styles */
-         .toggle-btn {
-            font-size: 1.5em;
-            cursor: pointer;
-            padding: 10px;
-            background: white;
-            color: #657081;
-            border: none;
-            z-index: 1000;
-        }
-        .toggle-btn-header{
-            display: none;
-        }
-
-        .toggle-btn-sidebar{
-            position: fixed;
-        }
-
-        .toggle-btn i {
-            transition: transform 0.3s ease;
-        }
-
-
-        /* Notification list styles */
-        .notification-list {
-            display: none;
-            position: absolute;
-            top: 100%; /* Position below the bell icon */
-            right: 0;
-            background: #fff;
-            color: #333;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            width: 300px; /* Adjust as needed */
-            z-index: 1000; /* Ensure it appears above other content */
-            overflow: hidden;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .notification-item {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        .notification-item:hover {
-            background-color: #f1f1f1;
-        }
-
-        .notification-text {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .notification-time {
-            font-size: 14px;
-            color: #888;
-        }
-
-        .view-all {
-            display: block;
-            padding: 10px 15px;
-            text-align: center;
-            color: rgb(12,175,96);
-            text-decoration: none;
-            font-weight: 500;
-            border-top: 1px solid #ddd;
-        }
-
-        .view-all:hover {
-            background-color: #f1f1f1;
-            border-top: 1px solid #ddd;
-        }
-
-        .notifications {
-            position: relative;
-            cursor: pointer;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .badge {
-            transition: opacity 0.3s ease;
-        }
-
-        .notification-list {
-            transition: opacity 0.3s ease;
-        }
-
-        /* Logo styles */
-        .logo {
-            display: flex;
-            align-items: center;
-            /* Adjust height or other styles as needed */
-        }
-
-        .logo img {
-            height: 40px; /* Adjust size as needed */
-            width: auto;  /* Maintain aspect ratio */
-            max-width: 100%; /* Ensure it doesn't exceed the container */
-        }
-
-        .brand {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .brand .logo {
-            display: inline;
-            width: 170px;
-            height: 50px;
-            margin-bottom: 30px;
-            margin-right: 10px;
-        }
-
-        .brand-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .slogan {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .toggle-btn-sidebar {
-           font-size: 20px;
-        }
-
-        .sidebar .logo-container {
-        display: flex;
-        align-items: center; /* Vertically aligns items to the center */
-    }
-
-    .notifications .fa-bell{
-        color:  rgb(184,189,197);
-    }
-
-    
-    .sidebar-data {
-           
-            display: none;
-        }
-
-    .sidebar-parent-icon{
-        margin-left: auto;
-    }
+        /* End responsive */
 
        
     </style>
@@ -585,10 +582,11 @@
              <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
            
         </div>
+
         <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i> 
             <span class="text-sidebar-item">Back </span> </a>
+
         <div class="menu-section" id="sidebar-render">
-            
             <!-- <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
             <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
             <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a>
@@ -601,7 +599,6 @@
             <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a>
             <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a> -->
         </div>
-
 
         <div class="sidebar-data">
             <ul class="tree">
@@ -835,16 +832,16 @@
         });
     }
 
-        function setActive(element) {
-            const links = document.querySelectorAll('.sidebar a');
-           
-            links.forEach(link => link.classList.remove('active'));
+    function setActive(element) {
+        const links = document.querySelectorAll('.sidebar a');
+        
+        links.forEach(link => link.classList.remove('active'));
 
-            element.classList.add('active');
-          
-        }
+        element.classList.add('active');
+        
+    }
 
-       function toggleNotifications() {
+    function toggleNotifications() {
         const notificationList = document.querySelector('.notification-list');
         const badge = document.querySelector('.badge');
 
@@ -858,107 +855,88 @@
         }
     }
 
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const header = document.querySelector('.header');
+        const main = document.querySelector('.main');
+        const toggleBtn = document.querySelector('.toggle-btn');
+        const toggleBtnIcon = document.querySelector('.toggle-btn i');
+        
+        sidebar.classList.toggle('hidden');
 
-
-       function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const header = document.querySelector('.header');
-            const main = document.querySelector('.main');
-            const toggleBtn = document.querySelector('.toggle-btn');
-            const toggleBtnIcon = document.querySelector('.toggle-btn i');
-            
-            sidebar.classList.toggle('hidden');
-
-            
-              // Change the icon based on sidebar visibility
-            if (sidebar.classList.contains('hidden')) {
-                toggleBtnIcon.classList.remove('fa-times');
-                toggleBtnIcon.classList.add('fa-bars');
-                toggleBtn.style.display = 'block'; 
-          
-            } else {
-                toggleBtnIcon.classList.remove('fa-bars');
-                toggleBtnIcon.classList.add('fa-times');
-                toggleBtn.style.display = 'none'; 
-            }
-
-
-            if (sidebar.classList.contains('hidden')) {
-                header.style.width = '100%';
-                header.style.left = '0';
-                main.style.marginLeft = '80px';
-            } else {
-                header.style.width = 'calc(100% - 270px)';
-                header.style.left = '270px';
-                main.style.marginLeft = '250px';
-            }
+        
+        // Change the icon based on sidebar visibility
+        if (sidebar.classList.contains('hidden')) {
+            toggleBtnIcon.classList.remove('fa-times');
+            toggleBtnIcon.classList.add('fa-bars');
+            toggleBtn.style.display = 'block'; 
+        
+        } else {
+            toggleBtnIcon.classList.remove('fa-bars');
+            toggleBtnIcon.classList.add('fa-times');
+            toggleBtn.style.display = 'none'; 
         }
 
+
+        if (sidebar.classList.contains('hidden')) {
+            header.style.width = '100%';
+            header.style.left = '0';
+            main.style.marginLeft = '80px';
+        } else {
+            header.style.width = 'calc(100% - 270px)';
+            header.style.left = '270px';
+            main.style.marginLeft = '250px';
+        }
+    }
     </script>
+
     <script>
-        //create a stack
+    // Script render sidebar item
         class Stack {
             constructor() {
                 this.items = [];
             }
-    
-            // Push an item onto the stack
             push(element) {
                 this.items.push(element);
             }
-    
-            // Pop an item off the stack
             pop() {
                 if (this.isEmpty()) {
                 throw new Error('Stack is empty');
                 }
                 return this.items.pop();
             }
-    
-            // Peek at the top item of the stack
             peek() {
                 if (this.isEmpty()) {
                 throw new Error('Stack is empty');
                 }
                 return this.items[this.items.length - 1];
             }
-    
-            // Check if the stack is empty
             isEmpty() {
                 return this.items.length === 0;
             }
-    
-            // Get the size of the stack
             size() {
                 return this.items.length;
             }
-    
-            // Clear all items from the stack
             clear() {
                 this.items = [];
             }
-    
-            // Print the stack
             print() {
                 console.log(this.items.toString());
             }
-        }
-        ////For Tree
+    }
       function parseTree(element, path = '') {
         let tree = [];
         element.querySelectorAll(':scope > li').forEach((li, index) => {
-            // Construct the selector string based on the current path and index
             let currentPath = `${path} > li:nth-child(${index + 1}) > a`;
             
             let node = {
-                selectorPath: `.sidebar-data .tree${currentPath}`, // Replace inner text with the selector string
+                selectorPath: `.sidebar-data .tree${currentPath}`, 
                 html: li.querySelector('a').outerHTML,
                 children: []
             };
             
             let ul = li.querySelector(':scope > ul');
             if (ul) {
-                // Recursively parse the children, passing the updated path
                 node.children = parseTree(ul, `${path} > li:nth-child(${index + 1}) > ul`);
             }
             
@@ -981,19 +959,15 @@
                 }
             }
         }
-    
         traverse(tree, selectorPath, 0);
         return result;
     }
     
-    
     function findElementBySelectorPath(tree, selectorPath) {
-        
         let result = {
             html: null,
             isHasChild: false
         };
-    
         function traverse(nodes, path) {
             for (let i = 0; i < nodes.length; i++) {
                 if (nodes[i].selectorPath === path) {
@@ -1012,9 +986,7 @@
         traverse(tree, selectorPath);
         return result;
     }
-    
-    // Usage
-    
+      
     function generateUUID() {
         return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
             (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -1026,7 +998,6 @@
     const htmlTree = document.querySelector('.tree');
     const treeStructure = parseTree(htmlTree);
     
-    /////////////
     function renderElementsFromPaths(paths, container) {
        
         if(paths.length > 0){
@@ -1046,7 +1017,6 @@
             return;
         }
     
-        // const treeStructure = parseTree(document.querySelector('.tree'));
         const containerElement = document.getElementById(container);
         
         paths.forEach(selectorPath => {
@@ -1096,13 +1066,9 @@
                 const backButton = document.getElementById('backButton');
                 backButton.style.display = 'none';
             }
-
         }
-        
-
      }
     
-    // Example Usage
     const selectorPathsToFind = [];
     
     treeStructure.forEach(obj =>{
@@ -1110,7 +1076,6 @@
     });
     
     renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
-    
     
     </script>
     

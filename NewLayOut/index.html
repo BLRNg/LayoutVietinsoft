@@ -11,9 +11,9 @@
     <!-- ========================= Navigation ===================== -->
      <div class="container">
         <div class="navigation">
-            <ul>
+            <ul id="sidebar-render">
                 <li>
-                    <a href="">
+                    <a href="" id="">
                         <span class="icon">
                             <ion-icon name="logo-apple"></ion-icon>
                         </span>
@@ -21,64 +21,88 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href=""  id="backButton" onclick="goBack(); event.preventDefault();" >
                         <span class="icon">
-                            <ion-icon name="home-outline"></ion-icon>
+                            <ion-icon name="arrow-back-circle-outline"></ion-icon>
                         </span>
-                        <span class="title">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Customer</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Messages</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
-                        <span class="title">Help</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                        <span class="title">Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Password</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
-                        </span>
-                        <span class="title">Sign Out</span>
+                        <span class="title">Back</span>
                     </a>
                 </li>
             </ul>
         </div>
      </div>
+
+     <div class="sidebar-data">
+        <ul class="tree">
+       
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Dashboard</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="">
+                            <span class="icon">
+                                <ion-icon name="home-outline"></ion-icon>
+                            </span>
+                            <span class="title">Layer 2</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Customer</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Messages</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </span>
+                    <span class="title">Help</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </span>
+                    <span class="title">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <span class="title">Password</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
     <!-- ======================= Main ========================== -->
      <div class="main">
         <div class="topbar">
@@ -148,5 +172,218 @@
 <!-- ========= ionicons =========== -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    // Script render sidebar item
+        class Stack {
+            constructor() {
+                this.items = [];
+            }
+            push(element) {
+                this.items.push(element);
+            }
+            pop() {
+                if (this.isEmpty()) {
+                throw new Error('Stack is empty');
+                }
+                return this.items.pop();
+            }
+            peek() {
+                if (this.isEmpty()) {
+                throw new Error('Stack is empty');
+                }
+                return this.items[this.items.length - 1];
+            }
+            isEmpty() {
+                return this.items.length === 0;
+            }
+            size() {
+                return this.items.length;
+            }
+            clear() {
+                this.items = [];
+            }
+            print() {
+                console.log(this.items.toString());
+            }
+    }
+      function parseTree(element, path = '') {
+        let tree = [];
+        element.querySelectorAll(':scope > li').forEach((li, index) => {
+            let currentPath = `${path} > li:nth-child(${index + 1}) > a`;
+            
+            let node = {
+                selectorPath: `.sidebar-data .tree${currentPath}`, 
+                html: li.querySelector('a').outerHTML,
+                children: []
+            };
+            
+            let ul = li.querySelector(':scope > ul');
+            if (ul) {
+                node.children = parseTree(ul, `${path} > li:nth-child(${index + 1}) > ul`);
+            }
+            
+            tree.push(node);
+        });
+        return tree;
+    }
+    
+    function findChildTree(tree, selectorPath) {
+        let result = [];
+    
+        function traverse(nodes, path, depth) {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].selectorPath === path) {
+                    result = nodes[i].children;
+                    return;
+                }
+                if (nodes[i].children.length > 0) {
+                    traverse(nodes[i].children, path, depth + 1);
+                }
+            }
+        }
+        traverse(tree, selectorPath, 0);
+        return result;
+    }
+    
+    function findElementBySelectorPath(tree, selectorPath) {
+        let result = {
+            html: null,
+            isHasChild: false
+        };
+        function traverse(nodes, path) {
+            for (let i = 0; i < nodes.length; i++) {
+                if (nodes[i].selectorPath === path) {
+                    result.html = nodes[i].html;
+                    if(nodes[i].children.length > 0){
+                        result.isHasChild = true;
+                    }
+                    return;
+                }
+                if (nodes[i].children.length > 0) {
+                    traverse(nodes[i].children, path);
+                }
+            }
+        }
+    
+        traverse(tree, selectorPath);
+        return result;
+    }
+      
+    function generateUUID() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+    
+    const sideBarMap = new Map();
+    const historyStack = new Stack();
+    const htmlTree = document.querySelector('.tree');
+    const treeStructure = parseTree(htmlTree);
+    
+    function renderElementsFromPaths(paths, container) {
+       
+        if(paths.length > 0){
+            // Select all <a> elements inside the <ul> with id "sidebar-render"
+            const sidebarLinks = document.querySelectorAll('#sidebar-render a');
+            // Loop through the selected <a> elements
+            sidebarLinks.forEach(link => {
+            // Check if the link's id exists in sideBarMap
+            if (sideBarMap.has(link.id)) {
+                // Remove the parent <li> element
+                link.parentElement.remove();
+            }
+            });
+            // document.getElementById(container).innerHTML = '';
+            historyStack.push(paths);
+            if(historyStack.size() == 2){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'flex';
+            }
+
+            if(historyStack.size() == 1){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'none';
+            }
+
+        }else{
+            return;
+        }
+    
+        const containerElement = document.getElementById(container);
+        
+        paths.forEach(selectorPath => {
+            const result = findElementBySelectorPath(treeStructure, selectorPath);
+            const elementHtml = result.html;
+            if (elementHtml) {
+                const uniqueId = generateUUID();
+                // Create a new HTML string with the unique ID
+                let elementHtmlWithId = "";
+                if(result.isHasChild){
+                     elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `).replace('</a>', '<i class="fas fa-chevron-right sidebar-parent-icon"></i></a>');
+                }else{
+                     elementHtmlWithId = elementHtml.replace(/<a\s+/i, `<a id="${uniqueId}" `);
+                }
+                containerElement.innerHTML += ' <li>' + elementHtmlWithId + ' </li>' ; 
+                sideBarMap.set(uniqueId,selectorPath);
+            } else {
+                containerElement.innerHTML += 'Element not found for ' + selectorPath + '<br>';
+            }
+        });
+    
+
+        const matchingLinks = [];
+        const sidebarLinks = document.querySelectorAll('#sidebar-render a');
+        sidebarLinks.forEach(link => {
+        if (sideBarMap.has(link.id)) {
+            matchingLinks.push(link);
+        }
+        });
+          // Add event listeners to newly rendered elements
+          matchingLinks.forEach(element => {
+            element.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link action
+               
+              
+                const currentTree = findChildTree(treeStructure, sideBarMap.get(this.id).toString());
+                let arraySelectorPath = [];
+                currentTree.forEach(obj =>{
+                    arraySelectorPath.push(obj.selectorPath);
+                });
+
+                matchingLinks.forEach((item) =>{
+                    item.parentElement.classList.remove("hovered");
+                });
+
+                element.parentElement.classList.add("hovered");
+              
+                renderElementsFromPaths(arraySelectorPath, container);
+               
+            });
+        });
+    }
+    
+    function goBack() {
+        if(historyStack.size() > 1){
+            historyStack.pop();
+            renderElementsFromPaths(historyStack.pop(), 'sidebar-render');
+
+            if(historyStack.size() == 1){
+                const backButton = document.getElementById('backButton');
+                backButton.style.display = 'none';
+            }
+        }
+     }
+    
+    const selectorPathsToFind = [];
+    
+    treeStructure.forEach(obj =>{
+        selectorPathsToFind.push(obj.selectorPath);
+    });
+    
+    renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
+    
+    </script>
+    
 </body>
 </html>
