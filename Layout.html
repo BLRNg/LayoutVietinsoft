@@ -139,7 +139,8 @@
         }
 
         .toggle-btn-sidebar{
-            position: fixed;
+            /* font-size: 5em; */
+           
         }
 
         .toggle-btn i {
@@ -233,7 +234,8 @@
             overflow-x: hidden;
         }
 
-        .sidebar a {
+        .sidebar a,
+        .sidebar .btn-sidebar-custom {
             border: 1px solid var(--white-background);
             background-color: var(--white-background);
             color: var(--black-textcolor);
@@ -252,7 +254,8 @@
             position: relative;
         }
 
-        .sidebar a i {
+        .sidebar a i,
+        .sidebar .btn-sidebar-custom i  {
             width: 25px; /* Set a consistent width */
             height: 25px;
             font-size: 25px;
@@ -261,11 +264,13 @@
             transition:  font-size 0.3s ease;
         }
 
-        .sidebar a:hover i, .sidebar a.active i{
+        .sidebar a:hover i, .sidebar a.active i,
+        .sidebar .btn-sidebar-custom:hover i, .sidebar .btn-sidebar-custom.active i{
             color: var(--green-color);
         }
 
-        .sidebar a:hover, .sidebar a.active {
+        .sidebar a:hover, .sidebar a.active,
+        .sidebar .btn-sidebar-custom:hover, .sidebar .btn-sidebar-custom.active {
             border-color: var(--green-border-color);
             color: var(--green-color);
             font-weight: bold;
@@ -273,7 +278,8 @@
         }
 
         
-        .sidebar a.active::before {
+        .sidebar a.active::before,
+        .sidebar .btn-sidebar-custom.active::before {
             content: '';
             position: absolute;
             left: 0px;
@@ -301,6 +307,7 @@
             margin-bottom: 20px;
             padding: 0 20px;
             text-align: center;
+            align-items: center;
         }
 
         .sidebar.hidden {
@@ -339,8 +346,9 @@
         .sidebar.hidden ~ .search-input{
             width: 50%;
         }
-
-        .sidebar.hidden a span.text-sidebar-item {
+  
+        .sidebar.hidden a span.text-sidebar-item,
+        .sidebar.hidden .btn-sidebar-custom span.text-sidebar-item {
             display: none; 
         }
         .sidebar.hidden a span.badge{
@@ -376,8 +384,8 @@
             display: inline;
             width: 170px;
             height: 50px;
-            margin-bottom: 30px;
-            margin-right: 10px;
+            margin-bottom: 0px;
+            margin-right: 0px;
         }
 
         .toggle-btn-sidebar {
@@ -400,10 +408,20 @@
         .sidebar-parent-icon{
             margin-left: auto;
         }
-        
+        .menu{
+            padding-left: 0;
+        }
         .menu,
         .menu .sub-menu{
             list-style-type: none;
+        }
+
+        .sub-menu{
+            display: none;
+        }
+
+        .sub-menu.open{
+            display: block;
         }
 
         /* End sidebar area */
@@ -578,37 +596,62 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-       
         <div class="brand">
-            <div class="logo-container">
-
-            </div>
+            <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
             <img src="https://phanmemtinhluong.com/wp-content/uploads/2023/11/cropped-ParadiseHRCopyRight.png" alt="Company Logo" class="logo">
-             <button class="toggle-btn toggle-btn-sidebar" onclick="toggleSidebar()"><i class="fas fa-angle-double-left"></i></button>
            
         </div>
 
-        <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i> 
-            <span class="text-sidebar-item">Back </span> </a>
+        <!-- <a id="backButton" onclick="goBack(); event.preventDefault();" class="btn-sidebar-back"><i class="fas fa-angle-double-left"></i> 
+            <span class="text-sidebar-item">Back </span> </a> -->
 
         <div class="menu-section" id="sidebar-render">
             <ul class="menu">
                 <li class="menu-item">
-                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                    <span class="btn-sidebar-custom">
+                        <i class="fas fa-tachometer-alt" ></i><span class="text-sidebar-item">Dashboard </span> 
+                    </span>
+                    
                     <ul class="sub-menu">
                         <li class="menu-item">
-                            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                            <span class="btn-sidebar-custom">
+                                <i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span>
+                            </span>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <span class="btn-sidebar-custom">
+                                        <i class="fas fa-file-contract"></i>  <span class="text-sidebar-item">Contract Management</span>
+                                    </span>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item">
+                                            <a href="#dashboard"  onclick="event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-bell"></i><span class="text-sidebar-item">Notifications</span> <span class="badge">3</span> </a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#dashboard"  onclick="event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-user"></i>   <span class="text-sidebar-item">Personal Profile</span> </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#dashboard"  onclick="event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-plane-departure"></i>   <span class="text-sidebar-item">Leave Management</span> </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#dashboard"  onclick=" event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#dashboard"  onclick=" event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span>  </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#dashboard"  onclick=" event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span> </a>
                         </li>
                     </ul>
                 </li>
                 <li class="menu-item">
-                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                    <a href="#dashboard"  onclick=" event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span></a>
                 </li>
             </ul>
-            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+            <!-- <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
             <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
             <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a>
             <a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a>
@@ -618,33 +661,34 @@
             <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a>
             <a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a>
             <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a>
-            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a>
+            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a> -->
         </div>
 
         <div class="sidebar-data">
             <ul class="tree">
                 <li>
-                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                    
+                    <a href="#dashboard" class="active" onclick=" event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
                     <ul>
-                        <li><a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a></li>
-                        <li> <a href="#profile"  onclick="setActive(this); event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span class="text-sidebar-item">Personal Profile</span> </a></li>
+                        <li><a href="#notifications"  onclick=" event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a></li>
+                        <li> <a href="#profile"  onclick=" event.preventDefault();  scrollToSection('#profile');"><i class="fas fa-user"></i>   <span class="text-sidebar-item">Personal Profile</span> </a></li>
                         <li>
-                            <a href="#leave"  onclick="setActive(this); event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span class="text-sidebar-item">Leave Management</span> </a>
+                            <a href="#leave"  onclick=" event.preventDefault();  scrollToSection('#leave');"><i class="fas fa-plane-departure"></i>   <span class="text-sidebar-item">Leave Management</span> </a>
                             <ul>
-                                <li><a href="#work-confirmation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span class="text-sidebar-item">Work Confirmation</span> </a></li>
-                                <li> <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a></li>
+                                <li><a href="#work-confirmation"  onclick=" event.preventDefault();  scrollToSection('#work-confirmation');"><i class="fas fa-check-circle"></i>   <span class="text-sidebar-item">Work Confirmation</span> </a></li>
+                                <li> <a href="#overtime"  onclick=" event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
+                    <a href="#attendance"  onclick="event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
                     <ul>
-                        <li><a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a></li>
-                        <li> <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a></li>
+                        <li><a href="#maternity"  onclick="event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a></li>
+                        <li> <a href="#resignation"  onclick="event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a></li>
                     </ul>
                 </li>
-                <li> <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a></li>
+                <li> <a href="#contract"  onclick="event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a></li>
             </ul>
         </div>
         
@@ -836,6 +880,44 @@
         });
     </script>
     <script>
+    
+    document.querySelectorAll('.menu-item > span').forEach(item =>{
+        item.addEventListener('click',() =>{
+
+            removeActiveClass();
+
+            item.classList.toggle('active');
+            const subMenu = item.nextElementSibling;
+            if(subMenu){
+                subMenu.classList.toggle('open');
+            }
+        });
+    });
+
+    document.querySelectorAll('.sidebar a').forEach(item =>{
+        item.addEventListener('click',() =>{
+
+            removeActiveClass();
+
+            item.classList.toggle('active');
+        });
+    });
+
+
+    function removeActiveClass(){
+        let links = document.querySelectorAll('.sidebar a');
+        
+        if(links){
+            links.forEach(link => link.classList.remove('active'));
+        }
+
+        links = document.querySelectorAll('.menu-item > span');
+        
+        if(links){
+            links.forEach(link => link.classList.remove('active'));
+        }
+       
+    }
 
     function scrollToSection(destination) {
         const target = document.querySelector(destination);
@@ -854,11 +936,11 @@
     }
 
     function setActive(element) {
-        const links = document.querySelectorAll('.sidebar a');
+        // const links = document.querySelectorAll('.sidebar a');
         
-        links.forEach(link => link.classList.remove('active'));
+        // links.forEach(link => link.classList.remove('active'));
 
-        element.classList.add('active');
+        // element.classList.add('active');
         
     }
 
@@ -891,23 +973,26 @@
             toggleBtnIcon.classList.remove('fa-times');
             toggleBtnIcon.classList.add('fa-bars');
             toggleBtn.style.display = 'block'; 
+
+            header.style.width = '100%';
+            header.style.left = '0';
+            main.style.marginLeft = '80px';
+
+            document.querySelectorAll('.menu-item > span').forEach(item =>{
+                item.nextElementSibling.classList.remove('open');
+            });
+            
         
         } else {
             toggleBtnIcon.classList.remove('fa-bars');
             toggleBtnIcon.classList.add('fa-times');
             toggleBtn.style.display = 'none'; 
-        }
 
-
-        if (sidebar.classList.contains('hidden')) {
-            header.style.width = '100%';
-            header.style.left = '0';
-            main.style.marginLeft = '80px';
-        } else {
             header.style.width = 'calc(100% - 270px)';
             header.style.left = '270px';
             main.style.marginLeft = '250px';
         }
+
     }
     </script>
 
