@@ -1,63 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Số lượng nhân viên</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Level Sidebar Menu</title>
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            text-align: center;
+            display: flex;
         }
 
-        .chart-container {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            position: relative;
-            border: 1px solid #ccc;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .chart-slice {
-            position: absolute;
+        #sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        .female-slice {
-            background-color: #008060; /* Adjusted green color */
-            transform: rotate(0deg);
+        .sidebar-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .male-slice {
-            background-color: #9900cc; /* Adjusted purple color */
-            transform: rotate(252deg); /* Calculated based on female percentage */
+        .sidebar-menu > li {
+            position: relative;
         }
 
-        .chart-text {
-            position: absolute;
-            top: 48%; /* Adjust top position slightly */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            color: #fff;
+        .sidebar-menu a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #444;
+        }
+
+        .submenu {
+            list-style-type: none;
+            padding-left: 20px;
+            display: none; /* Hide submenus by default */
+        }
+
+        .submenu a {
+            padding-left: 15px;
+        }
+
+        .submenu .submenu {
+            padding-left: 20px; /* Additional indentation for nested submenus */
+        }
+
+        /* Content styling */
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #f4f4f4;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <h1>Số lượng nhân viên</h1>
-    <p>Tính đến thời điểm hiện tại 28/08/2023.</p>
-
-    <div class="chart-container">
-        <div class="chart-slice female-slice"></div>
-        <div class="chart-slice male-slice"></div>
-        <div class="chart-text">500<br>Nhân viên</div>
+    <div id="sidebar">
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#">Dashboard</a>
+            </li>
+            <li>
+                <a href="#">Products</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#">Product 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Product 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Product 3</a>
+                        <ul class="submenu">
+                            <li><a href="#">Sub Product 1</a></li>
+                            <li><a href="#">Sub Product 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Settings</a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#">Security</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Reports</a>
+            </li>
+        </ul>
     </div>
 
-    <p>Nữ: 350 (70%)</p>
-    <p>Nam: 150 (30%)</p>
+    <div id="content">
+        <h1>Welcome to the Dashboard</h1>
+        <p>This is your main content area. Select an option from the sidebar to navigate through the different sections.</p>
+    </div>
+
+    <script>
+        document.querySelectorAll('.sidebar-menu > li > a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const nextElement = link.nextElementSibling;
+
+                // Check if the next element is a submenu
+                if (nextElement && nextElement.classList.contains('submenu')) {
+                    e.preventDefault();
+
+                    // Toggle the display of the submenu
+                    if (nextElement.style.display === 'block') {
+                        nextElement.style.display = 'none';
+                    } else {
+                        nextElement.style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
