@@ -400,6 +400,11 @@
         .sidebar-parent-icon{
             margin-left: auto;
         }
+        
+        .menu,
+        .menu .sub-menu{
+            list-style-type: none;
+        }
 
         /* End sidebar area */
 
@@ -587,7 +592,23 @@
             <span class="text-sidebar-item">Back </span> </a>
 
         <div class="menu-section" id="sidebar-render">
-            <!-- <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                    <ul class="sub-menu">
+                        <li class="menu-item">
+                            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
+                </li>
+            </ul>
+            <a href="#dashboard" class="active" onclick="setActive(this); event.preventDefault();  scrollToSection('#dashboard');"><i class="fas fa-tachometer-alt" ></i>    <span class="text-sidebar-item">Dashboard </span> </a>
             <a href="#attendance"  onclick="setActive(this); event.preventDefault();  scrollToSection('#attendance');"><i class="fas fa-calendar-check"></i>   <span class="text-sidebar-item">Attendance & GPS</span> </a>
             <a href="#contract"  onclick="setActive(this); event.preventDefault();  scrollToSection('#contract');"><i class="fas fa-file-contract"></i>   <span class="text-sidebar-item">Contract Management</span> </a>
             <a href="#notifications"  onclick="setActive(this); event.preventDefault();  scrollToSection('#notifications');"><i class="fas fa-bell"></i>   <span class="text-sidebar-item">Notifications</span> <span class="badge">3</span></a>
@@ -597,7 +618,7 @@
             <a href="#overtime"  onclick="setActive(this); event.preventDefault();  scrollToSection('#overtime');"><i class="fas fa-clock"></i>   <span class="text-sidebar-item">Overtime Registration</span> </a>
             <a href="#maternity"  onclick="setActive(this); event.preventDefault();  scrollToSection('#maternity');"><i class="fas fa-baby"></i>   <span class="text-sidebar-item">Maternity Registration</span> </a>
             <a href="#resignation"  onclick="setActive(this); event.preventDefault();  scrollToSection('#resignation');"><i class="fas fa-sign-out-alt"></i>   <span class="text-sidebar-item">Resignation Management</span> </a>
-            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a> -->
+            <a href="#payroll"  onclick="setActive(this); event.preventDefault();  scrollToSection('#payroll');"><i class="fas fa-dollar-sign"></i>   <span class="text-sidebar-item"> Payroll & Security</span></a>
         </div>
 
         <div class="sidebar-data">
@@ -1075,7 +1096,7 @@
         selectorPathsToFind.push(obj.selectorPath);
     });
     
-    renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
+    // renderElementsFromPaths(selectorPathsToFind, 'sidebar-render');
     
     </script>
     
