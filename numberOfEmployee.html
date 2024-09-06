@@ -3,144 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Level Sidebar Menu</title>
+    <title>Document</title>
+    <!-- MetisMenu CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.css">
+
+    <!-- jQuery (required by MetisMenu) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- MetisMenu JS -->
+    <script src="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.js"></script>
+
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-
-        #sidebar {
-            width: 250px;
-            background-color: #333;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .sidebar-menu {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar-menu > li {
-            position: relative;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 10px;
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .sidebar-menu a:hover {
-            background-color: #444;
-        }
-
-        .submenu {
-            list-style-type: none;
+        .metismenu .nav-second-level, 
+        .metismenu .nav-third-level {
             padding-left: 20px;
-            display: none; /* Hide submenus by default */
         }
 
-        .submenu a {
-            padding-left: 15px;
+        .metismenu li a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .submenu .submenu {
-            padding-left: 20px; /* Additional indentation for nested submenus */
+        .metismenu li a .arrow {
+            margin-left: 5px;
         }
 
-        /* Content styling */
-        #content {
-            margin-left: 250px;
-            padding: 20px;
-            width: calc(100% - 250px);
-            background-color: #f4f4f4;
-            min-height: 100vh;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        p {
-            color: #666;
-        }
     </style>
+
 </head>
 <body>
-    <div id="sidebar">
-        <ul class="sidebar-menu">
-            <li>
-                <a href="#">Dashboard</a>
-            </li>
-            <li>
-                <a href="#">Products</a>
-                <ul class="submenu">
-                    <li>
-                        <a href="#">Product 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Product 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Product 3</a>
-                        <ul class="submenu">
-                            <li><a href="#">Sub Product 1</a></li>
-                            <li><a href="#">Sub Product 2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Settings</a>
-                <ul class="submenu">
-                    <li>
-                        <a href="#">Profile</a>
-                    </li>
-                    <li>
-                        <a href="#">Security</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Reports</a>
-            </li>
-        </ul>
-    </div>
-
-    <div id="content">
-        <h1>Welcome to the Dashboard</h1>
-        <p>This is your main content area. Select an option from the sidebar to navigate through the different sections.</p>
-    </div>
+    <ul id="metisMenu" class="metismenu">
+        <li>
+            <a href="#" aria-expanded="false">Menu 1 <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                <li>
+                    <a href="#">Submenu 1-1</a>
+                </li>
+                <li>
+                    <a href="#">Submenu 1-2</a>
+                </li>
+                <li>
+                    <a href="#">Submenu 1-3 <span class="fa arrow"></span></a>
+                    <ul class="nav nav-third-level collapse">
+                        <li>
+                            <a href="#">Submenu 1-3-1</a>
+                        </li>
+                        <li>
+                            <a href="#">Submenu 1-3-2</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Menu 2</a>
+        </li>
+        <li>
+            <a href="#">Menu 3 <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                <li>
+                    <a href="#">Submenu 3-1</a>
+                </li>
+                <li>
+                    <a href="#">Submenu 3-2</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 
     <script>
-        document.querySelectorAll('.sidebar-menu > li > a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const nextElement = link.nextElementSibling;
-
-                // Check if the next element is a submenu
-                if (nextElement && nextElement.classList.contains('submenu')) {
-                    e.preventDefault();
-
-                    // Toggle the display of the submenu
-                    if (nextElement.style.display === 'block') {
-                        nextElement.style.display = 'none';
-                    } else {
-                        nextElement.style.display = 'block';
-                    }
-                }
-            });
-        });
+        $(document).ready(function() {
+        $('#metisMenu').metisMenu();
+    });
     </script>
+    
 </body>
 </html>
